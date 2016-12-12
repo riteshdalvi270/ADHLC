@@ -1,9 +1,6 @@
 package Oct2016.snapchat;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ritesh on 12/10/16.
@@ -12,21 +9,25 @@ public class WordLadder {
 
     public static void main(String args[]) {
 
-        final String beginWord = "hot";
+        final String beginWord = "a";
 
-        final String endWord = "dog";
+        final String endWord = "c";
 
         final List<String> wordList = new ArrayList<>();
-        wordList.add("hot");
-        wordList.add("dog");
-        wordList.add("cog");
-        wordList.add("pot");
-        wordList.add("dot");
+        wordList.add("a");
+        wordList.add("b");
+        wordList.add("c");
 
+        System.out.println(ladder(beginWord,endWord,wordList));
         System.out.println(ladderLength(beginWord,endWord,wordList));
+
+
+
+
     }
 
-    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
+    //Wrong solution.
+    private static int ladderLength1(String beginWord, String endWord, List<String> wordList) {
         final String[] beginEndWord = new String[]{beginWord,endWord};
 
         final Set<String> output = new HashSet<>();
@@ -77,5 +78,99 @@ public class WordLadder {
         }
 
         return output.size();
+    }
+
+    private static int ladder(String beginWord, String endWord, List<String> wordList) {
+
+        final Queue<String> queue = new ArrayDeque<>();
+        final Queue<Integer> distance = new ArrayDeque<>();
+
+        wordList.add(endWord);
+
+        queue.add(beginWord);
+        distance.add(1);
+
+        while(!queue.isEmpty()) {
+
+            String value  = queue.remove();
+            int current = distance.remove();
+            char[] beginCharArray = value.toCharArray();
+
+            if(value.equals(endWord)) {
+                return current;
+            }
+
+            for(int i = 0; i<value.length();i++) {
+
+                for(char c = 'a'; c<= 'z'; c++) {
+
+                    char firstbeginChar = beginCharArray[i];
+
+                    if(firstbeginChar!=c) {
+                        beginCharArray[i] = c;
+                    }
+
+                        if (wordList.contains(String.valueOf(beginCharArray))) {
+
+                            wordList.remove(String.valueOf(beginCharArray));
+
+                            queue.add(String.valueOf(beginCharArray));
+
+                            distance.add(current+1);
+                        }
+
+
+                    beginCharArray[i] = firstbeginChar;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    public static int ladderLength(String beginWord, String endWord, List<String> wordDict) {
+        LinkedList<WordNode> queue = new LinkedList<WordNode>();
+        queue.add(new WordNode(beginWord, 1));
+
+        wordDict.add(endWord);
+
+        while(!queue.isEmpty()){
+            WordNode top = queue.remove();
+            String word = top.word;
+
+            if(word.equals(endWord)){
+                return top.numSteps;
+            }
+
+            char[] arr = word.toCharArray();
+            for(int i=0; i<arr.length; i++){
+                for(char c='a'; c<='z'; c++){
+                    char temp = arr[i];
+                    if(arr[i]!=c){
+                        arr[i]=c;
+                    }
+
+                    String newWord = new String(arr);
+                    if(wordDict.contains(newWord)){
+                        queue.add(new WordNode(newWord, top.numSteps+1));
+                        wordDict.remove(newWord);
+                    }
+
+                    arr[i]=temp;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    static class WordNode{
+        String word;
+        int numSteps;
+
+        public WordNode(String word, int numSteps){
+            this.word = word;
+            this.numSteps = numSteps;
+        }
     }
 }
