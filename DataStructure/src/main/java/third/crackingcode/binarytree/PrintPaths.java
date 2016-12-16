@@ -1,18 +1,18 @@
 package third.crackingcode.binarytree;
 
+import java.util.LinkedList;
+
 import assistant.Tree;
 import assistant.TreeAssistant;
 
-import java.util.LinkedList;
-
 /**
- * Print paths which sum to a given value.
- * Created by ritesh on 1/3/16.
+ * Print paths which sum to a given value. Created by ritesh on 1/3/16.
  */
-public class PrintPaths {
+public class PrintPaths
+{
 
-    public static void main(String args[]) {
-
+    public static void main(String args[])
+    {
 
         final TreeAssistant treeAssistant = new TreeAssistant();
         Tree first = treeAssistant.createBinaryTree(5, 6, 18, null);
@@ -30,52 +30,59 @@ public class PrintPaths {
         Paths paths = new Paths();
 
         final LinkedList<Tree> pathsList = new LinkedList<>();
-        paths.printPaths(first, 18,pathsList);
+        paths.printPaths(first, 18, pathsList);
     }
 }
 
-class Paths {
+class Paths
+{
 
     // Look in the book. not 100% accurate.
-    public void printPaths(final Tree root, int sum, LinkedList<Tree> paths) {
+    public void printPaths(final Tree root, int sum, LinkedList<Tree> paths)
+    {
 
-        if(root == null) {
+        if (root == null)
+        {
             return;
         }
-
 
         paths.add(root);
 
-        if(root.getData() == sum) {
+        if (root.getData() == sum)
+        {
             printPaths(paths);
             return;
         }
 
-        boolean left = covers(root.left, paths,sum,root.getData());
+        boolean left = covers(root.left, paths, sum, root.getData());
 
-        if(left) {
+        if (left)
+        {
 
             printPaths(paths);
             paths = new LinkedList<>();
-            //print path;
+            // print path;
             // empty the linked list for right;
         }
 
-        boolean right = covers(root.right,paths,sum,root.getData());
+        boolean right = covers(root.right, paths, sum, root.getData());
 
-        if(right) {
+        if (right)
+        {
             printPaths(paths);
-            //print path;
-            //empty the linked list;
+            // print path;
+            // empty the linked list;
         }
 
-        printPaths(root.left,sum, new LinkedList<>());
-        printPaths(root.right,sum, new LinkedList<>());
+        printPaths(root.left, sum, new LinkedList<Tree>());
+        printPaths(root.right, sum, new LinkedList<Tree>());
     }
 
-    public boolean covers(final Tree root, final LinkedList<Tree> paths, int sum, int pathSums) {
+    public boolean covers(final Tree root, final LinkedList<Tree> paths, int sum, int pathSums)
+    {
 
-        if(root == null) {
+        if (root == null)
+        {
             return false;
         }
 
@@ -83,24 +90,28 @@ class Paths {
 
         paths.add(root);
 
-        if(pathSums == sum) {
+        if (pathSums == sum)
+        {
 
             return true;
         }
 
-        boolean isLeftPath = covers(root.left,paths,sum,pathSums);
+        boolean isLeftPath = covers(root.left, paths, sum, pathSums);
 
         boolean isRightPath = covers(root.right, paths, sum, pathSums);
 
-        if(!isLeftPath && !isRightPath) {
+        if (!isLeftPath && !isRightPath)
+        {
             paths.removeLast();
         }
 
         return isLeftPath || isRightPath;
     }
 
-    public void printPaths(final LinkedList<Tree> paths) {
-        for(final Tree path : paths) {
+    public void printPaths(final LinkedList<Tree> paths)
+    {
+        for (final Tree path : paths)
+        {
 
             System.out.println(path.getData());
         }
