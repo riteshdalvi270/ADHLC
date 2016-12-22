@@ -26,7 +26,7 @@ public class SumFromRootToLeaf
 
         Tree treeSecondInput = treeAssistant.createBinaryTree(1, -1, 2);
 
-        System.out.println(hasPathSum(treeSecondInput, 1));
+        System.out.println(hasPathSum(tree, 18));
     }
 
     public static boolean hasPathSum(Tree root, int sum)
