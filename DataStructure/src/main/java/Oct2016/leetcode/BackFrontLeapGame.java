@@ -10,6 +10,7 @@ public class BackFrontLeapGame
         System.out.println(backFrontLeap(input, index));
     }
 
+    // did not get solution
     public static boolean backFrontLeap(int[] input, int index)
     {
 
@@ -47,10 +48,7 @@ public class BackFrontLeapGame
                 return true;
             }
 
-            frontIndex = backIndex + backValue;
-            backIndex = backIndex - backValue;
-
-            return find(input, backIndex,frontIndex , backLeap, frontLeap);
+            return find(input, backIndex - backValue, backIndex + backValue, backLeap, frontLeap);
         }
 
         if (!frontLeap)
