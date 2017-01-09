@@ -4,55 +4,35 @@ import assistant.LinkedList;
 import assistant.LinkedListAssistant;
 
 /**
- * @author Ritesh Dalvi (rd026600).
+ * Reverse singly linked list
+ * Created by ritesh on 12/13/16.
  */
-public class ReverseLinkedList
-{
+public class ReverseLinkedList {
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
 
-        final LinkedList<Integer> linkedList = LinkedListAssistant.createLinkedList(new int[] {3, 4, 5, 6});
+        LinkedList linkedList = LinkedListAssistant.createLinkedList(new int[]{2, 3, 4, 5, 6});
 
-        reverseLinkedList(linkedList);
+        LinkedList runner = linkedList;
+
+        reverseLinkedList(linkedList,runner);
     }
 
-    public static void reverseLinkedList(final LinkedList<Integer> head) {
+    public static void reverseLinkedList(LinkedList linkedListNode, LinkedList runner) {
 
-    }
+        if(runner.next == null) {
+            runner.next =  linkedListNode;
 
-    //wrong
-    public static void reverseLinkedList1(final LinkedList<Integer> head)
-    {
+            return;
 
-        final LinkedList runner = head;
+        }else {
 
-        LinkedList<Integer>[] linkedLists = new LinkedList[10];
+            runner.next = linkedListNode.next;
+            linkedListNode = runner;
 
-        int i = 0;
-        while (head.next != null)
-        {
+            reverseLinkedList(linkedListNode,runner);
 
-            linkedLists[i] = head;
-
-            i++;
+            runner.next =  linkedListNode;
         }
-
-        int j = linkedLists.length - 1;
-
-        for (int k = 0; k < linkedLists.length; k++)
-        {
-
-            swap(linkedLists[i], linkedLists[j]);
-        }
-    }
-
-    private static void swap(final LinkedList<Integer> node1, final LinkedList<Integer> node2)
-    {
-        int temp = node1.val;
-
-        node1.val = node2.val;
-
-        node2.val = temp;
     }
 }

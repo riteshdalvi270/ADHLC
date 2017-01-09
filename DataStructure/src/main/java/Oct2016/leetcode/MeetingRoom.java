@@ -19,25 +19,34 @@ public class MeetingRoom {
 
     }
 
-    // not by me.
+    // after second try
     public static int minMeetingRoomsRightSolution(Interval[] intervals) {
-        int[] starts = new int[intervals.length];
-        int[] ends = new int[intervals.length];
-        for(int i=0; i<intervals.length; i++) {
-            starts[i] = intervals[i].start;
-            ends[i] = intervals[i].end;
+
+        Arrays.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval interval1, Interval interval2) {
+                return interval1.start - interval2.start;
+            }
+        });
+
+        final PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+
+        priorityQueue.offer(intervals[0].end);
+
+        int count = 1;
+
+        for(int i = 1; i<intervals.length; i++) {
+
+            if(intervals[i].start<priorityQueue.peek()) {
+                count++;
+            }else {
+                priorityQueue.poll();
+            }
+
+            priorityQueue.add(intervals[i].end);
         }
-        Arrays.sort(starts);
-        Arrays.sort(ends);
-        int rooms = 0;
-        int endsItr = 0;
-        for(int i=0; i<starts.length; i++) {
-            if(starts[i]<ends[endsItr])
-                rooms++;
-            else
-                endsItr++;
-        }
-        return rooms;
+
+        return count;
     }
 
     public static int minMeetingRooms(Interval[] intervals) {
